@@ -1,0 +1,66 @@
+---
+- name: Instalar y configurar NGINX con firewall básico
+  hosts: servidores
+  become: yes
+  vars:
+    pagina_html: |
+      <!DOCTYPE html>
+      <html>
+      <head>
+          <title>Servidor NGINX Personalizado</title>
+          <style>
+              body { background-color: #f4f4f4; font-family: Arial, sans-serif; text-align: center; padding-top: 50px; }
+              h1 { color: #333; }
+              p { color: #666; }
+          </style>
+      </head>
+      <body>
+          <h1>¡Bienvenido a mi servidor NGINX!</h1>
+          <p>Esta es una página personalizada desplegada con Ansible.</p>
+      </body>
+      </html>
+ 
+  tasks:
+    - name: Actualizar lista de paquetes
+      apt:
+        update_cache: yes
+ 
+    - name: Instalar NGINX
+      apt:
+        name: nginx
+        state: present
+ 
+    - name: Habilitar y arrancar NGINX
+      service:
+        name: nginx
+        state: started
+        enabled: yes
+ 
+    - name: Crear página personalizada
+      copy:
+        content: "{{ pagina_html }}"
+        dest: /var/www/html/index.html
+        owner: www-data
+        group: www-data
+        mode: '0644'
+ 
+    - name: Instalar UFW (firewall)
+      apt:
+        name: ufw
+        state: present
+ 
+    - name: Permitir tráfico SSH
+      ufw:
+        rule: allow
+        name: OpenSSH
+ 
+    - name: Permitir tráfico HTTP
+      ufw:
+        rule: allow
+        port: '80'
+        proto: tcp
+ 
+    - name: Habilitar UFW
+      ufw:
+        state: enabled
+        enabled: yes
