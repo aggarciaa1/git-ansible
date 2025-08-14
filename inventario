@@ -1,0 +1,5 @@
+[servidores]
+debian1 ansible_user=root 
+ubuntu1 ansible_user=root
+[web]
+ubuntu1 ansible_user=root

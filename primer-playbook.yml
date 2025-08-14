@@ -1,6 +1,6 @@
 ---
 - name: Configuración básica de servidor
-  hosts: webservers
+  hosts: servidores
   become: yes
   
   tasks:

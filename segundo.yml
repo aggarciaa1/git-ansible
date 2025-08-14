@@ -16,7 +16,7 @@
       </head>
       <body>
           <h1>¡Bienvenido a mi servidor NGINX!</h1>
-          <p>Esta es una página personalizada desplegada con Ansible.</p>
+          <p>Esta es una pagina personalizada desplegada con Ansible.</p>
       </body>
       </html>
  
@@ -44,23 +44,4 @@
         group: www-data
         mode: '0644'
  
-    - name: Instalar UFW (firewall)
-      apt:
-        name: ufw
-        state: present
- 
-    - name: Permitir tráfico SSH
-      ufw:
-        rule: allow
-        name: OpenSSH
- 
-    - name: Permitir tráfico HTTP
-      ufw:
-        rule: allow
-        port: '80'
-        proto: tcp
- 
-    - name: Habilitar UFW
-      ufw:
-        state: enabled
-        enabled: yes
+   
